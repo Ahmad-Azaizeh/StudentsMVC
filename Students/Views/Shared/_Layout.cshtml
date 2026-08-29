@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Student Manager</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <div class="navbar-nav ms-auto">
+
+                    <a class="nav-link"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        Home
+                    </a>
+
+                    <a class="nav-link"
+                       asp-controller="Students"
+                       asp-action="Index">
+                        Students
+                    </a>
+
+                    <a class="nav-link"
+                       asp-controller="Students"
+                       asp-action="Create">
+                        Create Student
+                    </a>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="container py-5">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                </button>
+            </div>
+        }
+
+        @RenderBody()
+
+    </main>
+
+
+    <footer class="border-top text-muted py-3">
+        <div class="container">
+            Student Management System
+        </div>
+    </footer>
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
