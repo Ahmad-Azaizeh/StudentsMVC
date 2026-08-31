@@ -1,3 +1,4 @@
+using Students.Application;
 using Students.Infrastracture;
 
 
@@ -10,6 +11,7 @@ var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddInfrastructure(connectionString);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 

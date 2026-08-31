@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Students.Application.Interfaces;
+using Students.Application.Models;
 using Students.Domain.Entities;
 
 namespace Students.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly IRepository<Student> _repo;
+        private readonly IStudentService _studentService;
 
-        public StudentsController(IRepository<Student> repo)
+        public StudentsController(IStudentService studentService)
         {
-            _repo = repo;
+            _studentService = studentService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var students = await _repo.GetAllAsync();
+            var students = await _studentService.GetAllAsync();
             return View(students);
         }
-
 
         public IActionResult Create()
         {
@@ -27,24 +27,22 @@ namespace Students.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Student student)
+        public async Task<IActionResult> Create(StudentModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(student);
+                return View(model);
             }
 
-            await _repo.AddAsync(student);
-            await _repo.SaveChangesAsync();
+            await _studentService.AddAsync(model);
 
             TempData["SuccessMessage"] = "Student Created successfully";
             return RedirectToAction(nameof(Index));
         }
 
-
         public async Task<IActionResult> Update(int id)
         {
-            var student = await _repo.GetByIdAsync(id);
+            var student = await _studentService.GetByIdAsync(id);
 
             if (student == null)
             {
@@ -56,28 +54,28 @@ namespace Students.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(Student student)
+        public async Task<IActionResult> Update(StudentModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(student);
+                return View(model);
             }
-            _repo.Update(student);
-            await _repo.SaveChangesAsync();
+
+            await _studentService.UpdateAsync(model);
 
             TempData["SuccessMessage"] = "Student updated successfully";
             return RedirectToAction(nameof(Index));
         }
 
-
         public async Task<IActionResult> Delete(int id)
         {
-            var student = await _repo.GetByIdAsync(id);
+            var student = await _studentService.GetByIdAsync(id);
 
             if (student == null)
             {
                 return NotFound();
             }
+
             return View(student);
         }
 
@@ -85,15 +83,14 @@ namespace Students.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            var student = await _repo.GetByIdAsync(id);
+            var student = await _studentService.GetByIdAsync(id);
 
             if (student == null)
             {
                 return NotFound();
             }
 
-            _repo.Delete(student);
-            await _repo.SaveChangesAsync();
+            await _studentService.DeleteAsync(id);
 
             TempData["SuccessMessage"] = "Student deleted successfully";
             return RedirectToAction(nameof(Index));
