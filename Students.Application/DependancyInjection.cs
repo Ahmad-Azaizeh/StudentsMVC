@@ -14,6 +14,8 @@ namespace Students.Application
         {
             services.AddScoped<IStudentService, StudentService>();
 
+            services.AddScoped<IAuthService, AuthService>();
+
             return services;
         }
     }

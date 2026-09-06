@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Students.Application.Interfaces
@@ -10,6 +11,8 @@ namespace Students.Application.Interfaces
         Task<IEnumerable<T>> GetAllAsync(params string[] includes);
 
         Task<T?> GetByIdAsync(int id, params string[] includes);
+
+        Task<T?> FindAsync(Expression<Func<T, bool>> predicate);
 
         Task AddAsync(T entity);
 

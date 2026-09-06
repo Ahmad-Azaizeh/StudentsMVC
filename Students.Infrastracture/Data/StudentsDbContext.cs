@@ -13,5 +13,7 @@ namespace Students.Infrastracture.Data
         }
 
         public DbSet<Student> Students => Set<Student>();
+
+        public DbSet<User> Users => Set<User>();
     }
 }
