@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Students.Application.Interfaces;
 using Students.Application.Models;
+using Students.Domain.Constants;
 using Students.Domain.Entities;
 
 namespace Students.Controllers
@@ -20,6 +22,7 @@ namespace Students.Controllers
             return View(students);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         public IActionResult Create()
         {
             return View();
@@ -27,6 +30,7 @@ namespace Students.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Create(StudentModel model)
         {
             if (!ModelState.IsValid)
@@ -40,6 +44,7 @@ namespace Students.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Update(int id)
         {
             var student = await _studentService.GetByIdAsync(id);
@@ -54,6 +59,7 @@ namespace Students.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Update(StudentModel model)
         {
             if (!ModelState.IsValid)
@@ -67,6 +73,7 @@ namespace Students.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var student = await _studentService.GetByIdAsync(id);
@@ -81,6 +88,7 @@ namespace Students.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             var student = await _studentService.GetByIdAsync(id);

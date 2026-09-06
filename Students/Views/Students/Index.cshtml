@@ -8,10 +8,12 @@
 
     <h1>Students</h1>
 
-    <a asp-action="Create" class="btn btn-primary">
-        Create Student
-    </a>
-
+    @if (User.Identity?.IsAuthenticated == true && User.IsInRole(Roles.Admin))
+    {
+        <a asp-action="Create" class="btn btn-primary">
+            Create Student
+        </a>
+    }
 </div>
 
 
@@ -42,17 +44,20 @@
                         <td>@student.Major</td>
 
                         <td>
-                            <a asp-action="Update"
-                               asp-route-id="@student.Id"
-                               class="btn btn-warning btn-sm">
-                                Update
-                            </a>
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole(Roles.Admin))
+                            {
+                                <a asp-action="Update"
+                                asp-route-id="@student.Id"
+                                class="btn btn-warning btn-sm">
+                                    Update
+                                </a>
 
-                            <a asp-action="Delete"
-                               asp-route-id="@student.Id"
-                               class="btn btn-danger btn-sm">
-                                Delete
-                            </a>
+                                <a asp-action="Delete"
+                                asp-route-id="@student.Id"
+                                class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            }
                         </td>
                     </tr>
                 }
